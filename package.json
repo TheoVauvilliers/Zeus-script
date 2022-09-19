@@ -1,0 +1,15 @@
+{
+  "name": "zeus-script",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run": "zx ./index.mjs"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "zx": "^1.0.0"
+  },
+  "type": "module"
+}
