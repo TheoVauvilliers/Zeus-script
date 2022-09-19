@@ -21,10 +21,7 @@ You must add your file here to convert the data into your database.
 ### Accepted extension
 
 - *.csv
-- *.txt
 
 ### Name expected
 
-- data.csv or data.txt
-- data-\*.csv or data-\*.txt
-- data\_\*.csv or data\_\*.txt
+- data.csv
