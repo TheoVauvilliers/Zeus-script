@@ -1,24 +1,49 @@
 #!/usr/bin/env zx
 
-import { checkFile, readFile } from './services/file.js';
+require('dotenv').config();
 
-// Check if file exist
-const file = checkFile();
+import fs from 'fs';
+import { client, collection } from './config/db.js'
+import { insertRow } from './services/db.js'
+import { checkFile } from './services/file.js';
+import { parse } from "csv-parse";
 
-if (file) {
-    await $`echo "File is found"`;
+/** @var { MongoClient } mongo client manager ready */
+const mongo = await client();
+
+/** @var { MongoClient } collection client manager */
+const log = collection(mongo, process.env.MONGODB_DB_NAME, 'log');
+
+/** @var { string | boolean } path of the file or false if not exist */
+const path = checkFile();
+
+if (path) {
+    echo("File is found");
 } else {
-    await $`echo "File not found, please read the REAME.md"`;
+    echo("File not found, please read the REAME.md");
     await $`exit 1`;
 }
 
-// Get the content of the file
-const content = await readFile(file);
+// ! TODO : Delete all lines
+log.deleteMany({});
 
-content.forEach(async (line, index) => {
-    if (index > 100) {
-        return;
-    }
-    const data = `${index}- ${line.timestamp}, ${line.timestamp}, ${line.pixel_color}, ${line.coordinate}`;
-    await $`echo "${data}"`;
+await new Promise((resolve, reject) => {
+
+    const promises = [];
+    let rows_processed = 0;
+
+    fs.createReadStream(path)
+        .pipe(parse({ delimiter: ',', columns: true }))
+        .on("data", (row) => {
+            promises.push(insertRow(log, row))
+            rows_processed++;
+        })
+        .on("error", reject)
+        .on("end", async () => {
+            await Promise.all(promises);
+            resolve();
+                echo(`Process completed, ${rows_processed} rows processed`);
+        });
 });
+
+await mongo.close();

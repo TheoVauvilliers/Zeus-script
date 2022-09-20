@@ -1,5 +1,12 @@
+# Auto generated IDE directories
 .vscode
+.idea
+
+# Auto generated node.js directories
 node_modules
 
-upload/*.txt
+# Private files
+.env
+
+# Large files
 upload/*.csv
