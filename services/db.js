@@ -1,5 +1,5 @@
 
-export const insertRow = (collection, row) => {
+export const insertRow = (row, collection) => {
     const [x, y] = row.coordinate.split(',');
 
     const query = { user_id: row.user_id };

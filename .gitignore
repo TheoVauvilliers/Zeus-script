@@ -10,3 +10,4 @@ node_modules
 
 # Large files
 upload/*.csv
+upload/*.gzip
