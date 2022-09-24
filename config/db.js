@@ -2,7 +2,7 @@ require('dotenv').config();
 
 import { MongoClient } from 'mongodb';
 
-const mongo = new MongoClient(process.env.MONGODB_URI, {
+const mongo = new MongoClient(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

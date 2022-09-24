@@ -37,7 +37,7 @@ export const readFile = async (path, collection) => {
     await new Promise((resolve, reject) => {
         const promises = [];
         let rows_processed = 0;
-    
+
         fs.createReadStream(path)
             .pipe(parse({ delimiter: ',', columns: true }))
             .on("data", (row) => {

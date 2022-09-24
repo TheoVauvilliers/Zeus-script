@@ -8,6 +8,5 @@ node_modules
 # Private files
 .env
 
-# Large files
-upload/*.csv
-upload/*.gzip
+# Ignore all files in the public folder
+public/*
